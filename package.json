@@ -1,0 +1,16 @@
+{
+  "name": "route-planner",
+  "version": "1.0.0",
+  "description": "Route planning software for fixed wing drones",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexander Duxbury",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
