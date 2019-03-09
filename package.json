@@ -4,13 +4,19 @@
   "description": "Route planning software for fixed wing drones",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "lint": "eslint ./",
+    "lintfix": "eslint ./ --fix"
   },
   "author": "Alexander Duxbury",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "jsdoc": "^3.5.5"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1"
   }
 }

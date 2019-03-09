@@ -1,0 +1,31 @@
+{   
+    "env": {
+        "node": true,
+        "es6": true
+    },
+
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    
+    "rules": {
+      "eqeqeq": "error",
+      "no-undef": "error",
+      "comma-dangle": "warn",
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "prefer-template": "warn",
+      "no-empty": "error",
+      "no-redeclare": "error",
+      "no-unused-vars": "error",
+      "no-const-assign": "error",
+      "no-var": "error",
+      "prefer-const": "warn",
+      "global-require": "warn"
+    }
+}
