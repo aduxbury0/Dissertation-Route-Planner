@@ -17,6 +17,8 @@
     "jsdoc": "^3.5.5"
   },
   "devDependencies": {
-    "eslint": "^5.15.1"
+    "chai": "^4.2.0",
+    "eslint": "^5.15.1",
+    "mocha": "^6.0.2"
   }
 }

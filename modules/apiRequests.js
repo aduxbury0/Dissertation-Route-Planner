@@ -1,24 +1,29 @@
 const axios = require('axios');
 
-
+/**
+ * Returns the height in meters for a point indicated by a latitude and longitude
+ * @async
+ * @param {float} lat - Latitude for point of height needed
+ * @param {float} long - Longitude for point of height needed
+ */
 function heightCall(lat, long) {
-
-	axios({
-		method: 'get',
-		url: `https://api.open-elevation.com/api/v1/lookup\?locations\=${lat},${long}`,
-		headers: {
-                    
-		},
-		data: {
-                    
-		}
-	})
-		.then((res) => {
-			const elevation = res.results[0];
-			return elevation;
+	return new Promise((reject, resolve) => {
+		axios({
+			method: 'get',
+			url: `https://api.open-elevation.com/api/v1/lookup\?locations\=${lat},${long}`,
+			headers: {
+						
+			},
+			data: {
+						
+			}
 		})
-		.catch(err => console.log(err));  
-
+			.then((res) => {
+				const elevation = res.results[0];
+				resolve(elevation);
+			})
+			.catch(err => reject(console.log(err)));
+	});
 }
 
 function weatherCall(lat, long) {
@@ -47,7 +52,7 @@ function weatherCall(lat, long) {
 				"windDescShort": weather.observations.location.obervation.windDescShort
 			}
 
-			return weatherCall;
+			return weatherReport;
 
 		})
 		.catch(err => console.log(err));
