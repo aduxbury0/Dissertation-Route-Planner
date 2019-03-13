@@ -32,7 +32,7 @@ function haversine(start, end) {
 
 	const distance = R * c;
 
-	return distance.toFixed(2); // returns the distance in meters
+	return distance.toFixed(2);
 }
 
 /**
@@ -45,9 +45,10 @@ function haversine(start, end) {
 function getDestination(start, bearing, distance) {
 	
 	const R = 6378137; // Earth’s mean radius in meters
-	
-	let endLat = Math.asin( Math.sin(start.lat)*Math.cos(distance/R) + Math.cos(start.lat)*Math.sin(distance/R)*Math.cos(bearing));
-	let endLng = start.lng + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(start.lat), Math.cos(distance/R)-Math.sin(start.lat)*Math.sin(endLat));
+
+	const endLat = Math.asin( Math.sin(start.lat)*Math.cos(distance/R) + Math.cos(start.lat)*Math.sin(distance/R)*Math.cos(bearing));
+
+	const endLng = start.lng + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(start.lat), Math.cos(distance/R)-Math.sin(start.lat)*Math.sin(endLat));
 
 	const endPoint = {
 		lat: endLat,
@@ -63,8 +64,6 @@ function getDestination(start, bearing, distance) {
  * @returns {float} - the resultant bearing
  */
 function getBearing(start, end) {
-	
-	const R = 6378137; // Earth’s mean radius in meters
 	
 	const y = Math.sin(end.lng-start.lng) * Math.cos(end.lat);
 	const x = Math.cos(start.lat)*Math.sin(end.lat) - Math.sin(start.lat)*Math.cos(end.lat)*Math.cos(end.lng-start.lng);
@@ -85,8 +84,8 @@ function getBearing(start, end) {
  */
 function createArrays(distance) {
 
-	let arrayNodes = Math.ceil((distance/1000) + 1);
-	let mainArray = new Array(arrayNodes);
+	const arrayNodes = Math.ceil((distance/1000) + 1);
+	const mainArray = new Array(arrayNodes);
 
 	for(let i = 0; i < mainArray.length; i++) {
 		mainArray[i] = new Array(0, 0 ,0, 0 ,0);
@@ -103,7 +102,7 @@ function createArrays(distance) {
  * @param {float} bearing 
  * @returns {Array} - The filled array
  */
-function populateArray(start, end, mainArray, bearing, distance) {
+function populateArray(start, end, mainArray, bearing) {
 
 	const leftBearing = (bearing + 270) % 360;
 	const rightBearing = (bearing + 90) % 360;
@@ -114,39 +113,34 @@ function populateArray(start, end, mainArray, bearing, distance) {
 	
 	for(let i = 0; i < mainArray.length; i++) {
 
-			let startI = {
+		const startI = {
+			lat: mainArray[i][2][0],
+			lng: mainArray[i][2][1]
+		}
+		const leftClose = getDestination(startI, leftBearing, 1000);
+		const leftFar = getDestination(leftClose, leftBearing, 1000);
+		const rightClose = getDestination(startI, rightBearing, 1000);
+		const rightFar = getDestination(rightClose, rightBearing, 1000);
+
+		mainArray[i][4] = [parseFloat(leftFar.lat.toFixed(6)), parseFloat(leftFar.lng.toFixed(6))];
+		mainArray[i][3] = [parseFloat(leftClose.lat.toFixed(6)), parseFloat(leftClose.lng.toFixed(6))];
+		mainArray[i][1] = [parseFloat(rightClose.lat.toFixed(6)), parseFloat(rightClose.lng.toFixed(6))];
+		mainArray[i][0] = [parseFloat(rightFar.lat.toFixed(6)), parseFloat(rightFar.lng.toFixed(6))];
+
+		//case for all nodes besides ones in final array
+		if(i !== mainArray.length - 1) {
+
+			const currentLocation = {
 				lat: mainArray[i][2][0],
 				lng: mainArray[i][2][1]
 			}
-			const leftClose = getDestination(startI, leftBearing, 1000);
-			const leftFar = getDestination(leftClose, leftBearing, 1000);
-			const rightClose = getDestination(startI, rightBearing, 1000);
-			const rightFar = getDestination(rightClose, rightBearing, 1000);
-
-			mainArray[i][4] = [parseFloat(leftFar.lat.toFixed(6)), parseFloat(leftFar.lng.toFixed(6))];
-			mainArray[i][3] = [parseFloat(leftClose.lat.toFixed(6)), parseFloat(leftClose.lng.toFixed(6))];
-			mainArray[i][1] = [parseFloat(rightClose.lat.toFixed(6)), parseFloat(rightClose.lng.toFixed(6))];
-			mainArray[i][0] = [parseFloat(rightFar.lat.toFixed(6)), parseFloat(rightFar.lng.toFixed(6))];
-
-			if(i !== mainArray.length - 1) {
-
-				if(i === mainArray.length - 2) {
-
-					const currentLocation = {
-						lat: mainArray[i][2][0],
-						long: mainArray[i][2][1]
-					}
-					console.log(mainArray[i][2]);
-					const residual = distance % 1000;
-					const nextCenter =  getDestination(currentLocation, bearing, parseFloat(residual.toFixed(2)));
-					console.log(nextCenter);
-
-				}
-				else {
-
-
-				}
-			}
+			const nextCenter = getDestination(currentLocation, bearing, 1000);
+			let nextLat = nextCenter.lat;
+			let nextLng = nextCenter.lng;
+			nextLat = parseFloat(nextLat.toFixed(6));
+			nextLng = parseFloat(nextLng.toFixed(6));
+			mainArray[i+1][2] = [nextLat, nextLng];
+		}
 	}
 	console.log(mainArray);
 	return mainArray;
@@ -155,21 +149,25 @@ function populateArray(start, end, mainArray, bearing, distance) {
 
 module.exports = {
 
-	createMatrix(startSet, endSet) {
+	createMatrix(start, end) {
 
-		const distance = haversine(startSet, endSet);
+		const distance = haversine(start, end);
 
-		const bearing = getBearing(startSet, endSet);
+		const bearing = getBearing(start, end);
 
 		const unfilledArray = createArrays(distance);
 
-		const populatedArray = populateArray(startSet, endSet, unfilledArray, bearing, distance);
+		const populatedArray = populateArray(start, end, unfilledArray, bearing);
+
+		const distanceToFinal = (Math.ceil((distance % 1000) * 100) / 100);
 
 		const set = {
-			start: startSet,
-			end: endSet,
+			start: start,
+			end: end,
 			distance: distance,
+			distanceToFinal: distanceToFinal,
 			bearing: bearing,
+			array: populatedArray
 		}
 		return set;
 

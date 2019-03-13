@@ -3,8 +3,8 @@ const matrix = require('./modules/matrixCreate');
 
 const app = express();
 
-const start = {lng: 51.976300,lat: -0.229990}
-const end = {lng: 51.899840, lat: -0.202580}
+const start = {lng: 51.976301,lat: -0.229991}
+const end = {lng: 51.899841, lat: -0.202581}
 
 //console.log();
 matrix.createMatrix(start, end)
