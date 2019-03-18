@@ -6,19 +6,20 @@
   "scripts": {
     "start": "node app.js",
     "lint": "eslint ./",
-    "lintfix": "eslint ./ --fix"
+    "lintfix": "eslint ./ --fix",
+    "gendoc": "jsdoc.js /modules"
   },
   "author": "Alexander Duxbury",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "jsdoc": "^3.5.5"
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.15.1",
+    "jsdoc": "^3.5.5",
     "mocha": "^6.0.2"
   }
 }

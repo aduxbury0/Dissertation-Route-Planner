@@ -15,8 +15,8 @@ function radians(input) {
 /**
 * Calculates the distance in meters between a start and end set of WGS 84 Co-ordinates
 * Sourced from "https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3"
-* @param {JSObject} start - contains lat and long attributes
-* @param {JSObject} end - contains lat and long attributes
+* @param {Object} start - contains lat and long attributes
+* @param {Object} end - contains lat and long attributes
 * @returns {float} - Distance in meters
 */
 function haversine(start, end) {
@@ -37,10 +37,10 @@ function haversine(start, end) {
 
 /**
  * Calculates the lat/long of a point using a start point, bearing, and distance traveled.
- * @param {JSObject} start - in the format {lat: n, lng: n} - denotes the starting location for the formula 
+ * @param {Object} start - in the format {lat: n, lng: n} - denotes the starting location for the formula 
  * @param {float} bearing - the bearing clockwise from north
  * @param {float} distance - the distance in meters
- * @returns {JSObject} - object containing the resultant lat/long pair in format {lat: n, lng: n}
+ * @returns {Object} - object containing the resultant lat/long pair in format {lat: n, lng: n}
  */
 function getDestination(start, bearing, distance) {
 	
@@ -59,8 +59,8 @@ function getDestination(start, bearing, distance) {
 
 /**
  * 
- * @param {JSObject} start - javascript object ing format {lat: n, lng: n} which denotes the starting location for the bearing calculation
- * @param {JSObject} end - Javascript object in format {lat: n, lng: n} which denotes the finishing location for the bearing calculation
+ * @param {Object} start - javascript object ing format {lat: n, lng: n} which denotes the starting location for the bearing calculation
+ * @param {Object} end - Javascript object in format {lat: n, lng: n} which denotes the finishing location for the bearing calculation
  * @returns {float} - the resultant bearing
  */
 function getBearing(start, end) {
@@ -96,8 +96,8 @@ function createArrays(distance) {
 
 /**
  * Fills the main array with lat/long co-ordinates
- * @param {JSObject} start - Javascript object containing lat and long of start location in format {lat: x, lng: y}
- * @param {JSObject} end 
+ * @param {Object} start - Javascript object containing lat and long of start location in format {lat: x, lng: y}
+ * @param {Object} end 
  * @param {Array} mainArray 
  * @param {float} bearing 
  * @returns {Array} - The filled array
@@ -142,13 +142,19 @@ function populateArray(start, end, mainArray, bearing) {
 			mainArray[i+1][2] = [nextLat, nextLng];
 		}
 	}
-	console.log(mainArray);
+	//console.log(mainArray);
 	return mainArray;
 
 }
 
 module.exports = {
 
+	/**
+	 * Takes the initial start and finish locations for the route and creates the initial matrix of lat/lngs and other important metadata
+	 * @param {Object} start - Object containing lat and lng elements which represent the latitude and longitude of the start location
+	 * @param {Object} end - Object containing lat and lng elements which represent the latitude and longitude of the end location
+	 * @returns {Object} - Returns the initial data set for the route
+	 */
 	createMatrix(start, end) {
 
 		const distance = haversine(start, end);
