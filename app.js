@@ -12,8 +12,10 @@ app.get('/', (req, res) => {
 	const set = matrix.createMatrix(start, end)
 	objectCre.createObjectMatrix(set)
 		.then((set) => {
+			console.log(set);
 			res.send(200, set);
-		});
+		})
+		.catch(err => console.log(err));
 });
 
 const PORT = process.env.port || 8000;

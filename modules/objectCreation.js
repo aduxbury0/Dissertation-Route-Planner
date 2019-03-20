@@ -88,7 +88,7 @@ module.exports = {
      * @returns {Object} - JS Object containing data on the route and an array of 5n objects (where N is length of the array) 
      */
 	async createObjectMatrix(set) {
-        return new Promise((reject, resolve) => {
+        return new Promise(async (reject, resolve) => {
 			const coordMatrix = set.array;
 			const objectMatrix = createArray(coordMatrix.length);
 	
