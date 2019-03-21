@@ -72,7 +72,7 @@ function createArray(arrLength) {
 	const newArray = new Array(arrLength);
 	for(let i = 0; i < arrLength; i++) {
 		for(let j = 0; j < 5; j++) {
-			newArray[i] = new Array(0,0,0,0,0);
+			newArray[i] = [0,0,0,0,0];
 		}
 	}
 	return newArray;

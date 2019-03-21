@@ -88,7 +88,7 @@ function createArrays(distance) {
 	const mainArray = new Array(arrayNodes);
 
 	for(let i = 0; i < mainArray.length; i++) {
-		mainArray[i] = new Array(0, 0 ,0, 0 ,0);
+		mainArray[i] = [0,0,0,0,0];
 	}
 
 	return mainArray;

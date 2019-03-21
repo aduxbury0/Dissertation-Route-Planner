@@ -1,6 +1,7 @@
 const express = require('express');
 const matrix = require('./modules/matrixCreate');
 const objectCre = require('./modules/objectCreation');
+const graphCre = require('./modules/graphCreation');
 
 const app = express();
 
@@ -10,12 +11,16 @@ app.get('/', (req, res) => {
 	const end = {lng: 51.899841, lat: -0.202581}
 
 	const set = matrix.createMatrix(start, end)
-	objectCre.createObjectMatrix(set)
-		.then((set) => {
-			console.log(set);
-			res.send(200, set);
-		})
-		.catch(err => console.log(err));
+	// objectCre.createObjectMatrix(set)
+	// 	.then((set) => {
+	// 		console.log(set);
+	// 		res.send(200, set);
+	// 	})
+	// 	.catch(err => console.log(err));
+
+	const emptymatrix = graphCre.createGraph(set);
+	res.send(emptymatrix);
+
 });
 
 const PORT = process.env.port || 8000;
