@@ -51,7 +51,9 @@ function generateObject(latLngPair) {
 				precipitation24H: weatherReport.precipitation24H,
 				windSpeed: weatherReport.windSpeed,
 				windDirection: weatherReport.windDirection,
-				windDescShort: weatherReport.windDescShort
+				windDescShort: weatherReport.windDescShort,
+				sideWeight: 0,
+				forwardWeight: 0
 			};
     
 			resolve(nodeObject);

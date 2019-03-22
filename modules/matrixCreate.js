@@ -153,9 +153,10 @@ module.exports = {
 	 * Takes the initial start and finish locations for the route and creates the initial matrix of lat/lngs and other important metadata
 	 * @param {Object} start - Object containing lat and lng elements which represent the latitude and longitude of the start location
 	 * @param {Object} end - Object containing lat and lng elements which represent the latitude and longitude of the end location
+	 * @param {Number} ceiling - Drone flight ceiling in meters
 	 * @returns {Object} - Returns the initial data set for the route
 	 */
-	createMatrix(start, end) {
+	createMatrix(start, end, ceiling) {
 
 		const distance = haversine(start, end);
 
@@ -173,7 +174,8 @@ module.exports = {
 			distance: distance,
 			distanceToFinal: distanceToFinal,
 			bearing: bearing,
-			array: populatedArray
+			array: populatedArray,
+			ceiling: ceiling
 		}
 		return set;
 

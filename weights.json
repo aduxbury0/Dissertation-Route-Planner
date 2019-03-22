@@ -1,0 +1,14 @@
+{
+
+    "oneHour": 4,
+    "threeHour": 3,
+    "sixHour": 2,
+    "twelveHour": 1,
+    "twentyFourHour": 1,
+    "height": 2147483647,
+    "windSpeed": 3,
+    "tailWind": -3,
+    "closeOff": 2,
+    "farOff": 4
+
+}
