@@ -175,7 +175,8 @@ module.exports = {
 			distanceToFinal: distanceToFinal,
 			bearing: bearing,
 			array: populatedArray,
-			ceiling: ceiling
+			ceiling: ceiling,
+			adjMatrix: []
 		}
 		return set;
 

@@ -11,15 +11,17 @@ app.get('/', (req, res) => {
 	const end = {lng: 51.899841, lat: -0.202581}
 
 	const set = matrix.createMatrix(start, end)
-	// objectCre.createObjectMatrix(set)
-	// 	.then((set) => {
-	// 		console.log(set);
-	// 		res.send(200, set);
-	// 	})
-	// 	.catch(err => console.log(err));
+	
+	objectCre.createObjectMatrix(set)
+		.then((set) => {
 
-	const emptymatrix = graphCre.createGraph(set);
-	res.send(emptymatrix);
+			set = graphCre.createGraph(set);
+			res.send(set.adjMatrix);
+		
+		})
+		.catch(err => console.log(err));
+
+
 
 });
 
