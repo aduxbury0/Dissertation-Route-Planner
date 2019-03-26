@@ -6,9 +6,9 @@ const apiCalls = require('./apiRequests');
  * @returns {Object} - A JS object containing data returned by the weather API
  */
 function getWeather(latLngPair) {
-	return new Promise((reject, resolve) => {
+	return new Promise((resolve, reject) => {
 
-		apiCalls.weatherCall(latLngPair[0], latLngPair[1])
+		apiCalls.weatherCall(latLngPair[1], latLngPair[0])
 			.then((weatherReport) => {
 				resolve(weatherReport);
 			})
@@ -23,8 +23,8 @@ function getWeather(latLngPair) {
  * @returns {Float} - a flaot representing the terrain height at that location;
  */
 function getTerrainHeight(latLngPair) {
-	return new Promise((reject, resolve) => {
-		apiCalls.heightCall(latLngPair[0], latLngPair[1])
+	return new Promise((resolve, reject) => {
+		apiCalls.heightCall(latLngPair[1], latLngPair[0])
 			.then(height => resolve(height))
 			.catch(err => reject(err));
 	});
@@ -36,7 +36,7 @@ function getTerrainHeight(latLngPair) {
  * @returns {Object} - An object with data relating to the weather and height of a single location
  */
 function generateObject(latLngPair) {
-	return new Promise(async (reject, resolve) => {
+	return new Promise(async (resolve, reject) => {
         
 		try{
 			const weatherReport = await getWeather(latLngPair);
@@ -52,8 +52,6 @@ function generateObject(latLngPair) {
 				windSpeed: weatherReport.windSpeed,
 				windDirection: weatherReport.windDirection,
 				windDescShort: weatherReport.windDescShort,
-				sideWeight: 0,
-				forwardWeight: 0
 			};
     
 			resolve(nodeObject);
@@ -90,12 +88,20 @@ module.exports = {
      * @returns {Object} - JS Object containing data on the route and an array of 5n objects (where N is length of the array) 
      */
 	async createObjectMatrix(set) {
-        return new Promise(async (reject, resolve) => {
+        return new Promise(async (resolve, reject) => {
 			const coordMatrix = set.array;
 			const objectMatrix = createArray(coordMatrix.length);
-	
+			
+			let counter = 0;
+
 			for(let i = 0; i < coordMatrix.length; i++) {
+				//Height has a 500/min timeout, this will call 500 times then wait 60 seconds
+				if(counter === 100) {
+					await new Promise(done => setTimeout(done, 60000));
+					counter = 0;
+				}
 				console.log(`Generating Objects: ${  Math.round(((i/(objectMatrix.length))*100))  }% complete`)
+				counter++;
 				for(let j = 0; j < coordMatrix[i].length; j++) {
 	
 					try{
@@ -108,7 +114,8 @@ module.exports = {
 	
 				}
 			}
-			set.array = objectMatrix;
+			set.matrix = objectMatrix;
+			console.log("Object Creation Completed");
 			resolve(set);
 		});
 	}

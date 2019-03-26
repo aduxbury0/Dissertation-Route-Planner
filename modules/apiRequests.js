@@ -9,20 +9,17 @@ module.exports = {
 	 * @param {float} long - Longitude for point of height needed
 	 */
 	heightCall(lat, long) {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: `https://api.open-elevation.com/api/v1/lookup\?locations\=${lat},${long}`,
-				headers: {
-							
-				},
-				data: {
-							
-				}
+				url: `http://dev.virtualearth.net/REST/v1/Elevation/List?points=${lat},${long}&key=AmcNLgOsQ7oXGpikbVVM0ZRM7mnnBU5SFx0FvXMmVAGk9H34YddfQnbAJ6bjin-q`,
+
 			})
 				.then((res) => {
-					const elevation = res.results[0];
+					//console.log(res);
+					const elevation = res.data.resourceSets[0].resources[0].elevations[0];
 					resolve(elevation);
+					//resolve();
 				})
 				.catch(err => reject(console.log(err)));
 		});
@@ -39,16 +36,15 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
-				params: {
-					app_id: 'hF9FhuQZC0D6ix1haZeZ',
-					app_code: 'sc3s5Gr4xLP1v3d2uRsciQ',
-					latitude: lat,
-					longitude:  long,
-					oneobservation: 'true',
-					product: 'observation'
-
-				}
+				url: `https://weather.cit.api.here.com/weather/1.0/report.json?app_id=hF9FhuQZC0D6ix1haZeZ&app_code=sc3s5Gr4xLP1v3d2uRsciQ&latitude=${lat}&longitude=${long}&oneobservation=true&product=observation`,
+				// params: {
+				// 	app_id: 'hF9FhuQZC0D6ix1haZeZ',
+				// 	app_code: 'sc3s5Gr4xLP1v3d2uRsciQ',
+				// 	latitude: lat,
+				// 	longitude:  long,
+				// 	oneobservation: 'true',
+				// 	product: 'observation'
+				// }
 			})
 				.then((weather) => {
 					//console.log(weather.data.observations.location[0].observation[0]);
@@ -80,7 +76,7 @@ module.exports = {
 	 * @returns {JSON}
 	 */
 	airspaceCall(latMin, longMin, latMax, longMax) {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 
 			axios({
 				method: 'get',

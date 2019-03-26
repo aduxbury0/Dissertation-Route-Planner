@@ -12,6 +12,10 @@ function radians(input) {
 
 }
 
+function degrees(input) {
+	return input * 180/ Math.PI;
+}
+
 /**
 * Calculates the distance in meters between a start and end set of WGS 84 Co-ordinates
 * Sourced from "https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3"
@@ -21,17 +25,17 @@ function radians(input) {
 */
 function haversine(start, end) {
 
-	const R = 6378137; // Earth’s mean radius in meters
-
-	const dLat = radians(end.lat - start.lat);
-	const dLong = radians(end.lng - start.lng);
-
-	const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(radians(start.lat)) * Math.cos(radians(end.lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
-
-	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-	const distance = R * c;
-
+	const R = 6371; // radius of the earth in meters
+	let φ1 = radians(start.lat);
+	let φ2 = radians(end.lat);
+	let Δφ = radians(end.lat-start.lat);
+	let Δλ = radians(end.lng-start.lng);
+	
+	let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	
+	let distance = (R * c)*1000;
+	console.log(distance);
 	return distance.toFixed(2);
 }
 
@@ -46,14 +50,18 @@ function getDestination(start, bearing, distance) {
 	
 	const R = 6378137; // Earth’s mean radius in meters
 
-	const endLat = Math.asin( Math.sin(start.lat)*Math.cos(distance/R) + Math.cos(start.lat)*Math.sin(distance/R)*Math.cos(bearing));
+	const φ1 = radians(start.lat);
+	const λ1 = radians(start.lng);
+	distance = radians(distance);
 
-	const endLng = start.lng + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(start.lat), Math.cos(distance/R)-Math.sin(start.lat)*Math.sin(endLat));
+	let φ2 = Math.asin( Math.sin(φ1)*Math.cos(distance/R) + Math.cos(φ1)*Math.sin(distance/R)*Math.cos(bearing));
+	let λ2 = λ1 + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(φ1), Math.cos(distance/R)-Math.sin(φ1)*Math.sin(φ2));
 
 	const endPoint = {
-		lat: endLat,
-		lng: endLng
+		lat: φ2,
+		lng: λ2
 	}
+
 	return endPoint ;
 }
 
@@ -65,10 +73,14 @@ function getDestination(start, bearing, distance) {
  */
 function getBearing(start, end) {
 	
-	const y = Math.sin(end.lng-start.lng) * Math.cos(end.lat);
-	const x = Math.cos(start.lat)*Math.sin(end.lat) - Math.sin(start.lat)*Math.cos(end.lat)*Math.cos(end.lng-start.lng);
-	const radianBearing = Math.atan2(y, x);
-	let bearing = radianBearing * (180/Math.PI);
+	let λ1 = radians(start.lng);
+	let λ2 = radians(end.lng);
+	let φ1 = radians(start.lat);
+	let φ2 = radians(end.lat);
+
+	let y = Math.sin(λ2-λ1) * Math.cos(φ2);
+	let x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(λ2-λ1);
+	let bearing = degrees(Math.atan2(y, x))
 
 	if(bearing < 0){
 		bearing = bearing + 360;
@@ -174,8 +186,9 @@ module.exports = {
 			distance: distance,
 			distanceToFinal: distanceToFinal,
 			bearing: bearing,
-			array: populatedArray,
 			ceiling: ceiling,
+			array: populatedArray,
+			matrix: populatedArray,
 			adjMatrix: []
 		}
 		return set;

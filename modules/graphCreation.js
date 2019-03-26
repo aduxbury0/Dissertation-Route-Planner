@@ -221,9 +221,11 @@ module.exports = {
 
     createGraph(set) {
 
-        let adjMatrix = createEmptyAdjMatrix(set.array.length);
+        let adjMatrix = createEmptyAdjMatrix(set.matrix.length);
 
-        //adjMatrix = determineLeftWeights(set, adjMatrix, set.ceiling);
+        console.log(adjMatrix);
+
+        adjMatrix = determineLeftWeights(set, adjMatrix, set.ceiling);
 
         //adjMatrix = determineRightWeights(set, adjMatrix, set.ceiling);
         
@@ -234,6 +236,5 @@ module.exports = {
         return set;
 
     }
-
 
 }
