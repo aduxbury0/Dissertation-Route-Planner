@@ -114,7 +114,7 @@ module.exports = {
 	
 				}
 			}
-			set.matrix = objectMatrix;
+			set.objMatrix = objectMatrix;
 			console.log("Object Creation Completed");
 			resolve(set);
 		});

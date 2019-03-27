@@ -13,39 +13,21 @@ app.get('/',(req, res) => {
 	const cieling = 4000;
 
 	let set = matrix.createMatrix(start, end, cieling);
-	
-	console.log(set);
-	res.send(set);
-
-	// objectCre.createObjectMatrix(set)
-	// 	.then((set) => {
-			
-	// 		//set = graphCre.createGraph(set);
-	// 		res.send(200, set);
-		
-	// 	})
-	// 	.catch(err => res.send(500, err));
-
-
-
+	objectCre.createObjectMatrix(set)
+		.then(newSet => {
+			set = newSet;
+			res.status(200).send(set);
+		})
+		.catch(err => console.log(err));
 });
 
 app.get('/test', (req, res) => {
 	
-	// apis.heightCall(27.988101, 86.924894)
-	// 	.then((response) => {
-	// 		res.send(200, response);
-	// 	})
-	// 	.catch(err => console.log(err));
+	const start = {lat: 51.976301,lng: -0.229991}
+	const end = {lat: 51.947952, lng: -0.277250}
 
-	// apis.weatherCall(-0.229991,51.976301)
-	// 	.then(response => {
-	// 		res.send(200, response);
-	// 	})
-	// 	.catch(err => console.log(err));
-	
-	
-
+	const result = matrix.getDestTest(start, 180, 1);
+	res.status(200).send(result)
 });
 
 const PORT = process.env.port || 8000;

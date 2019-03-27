@@ -16,10 +16,8 @@ module.exports = {
 
 			})
 				.then((res) => {
-					//console.log(res);
 					const elevation = res.data.resourceSets[0].resources[0].elevations[0];
 					resolve(elevation);
-					//resolve();
 				})
 				.catch(err => reject(console.log(err)));
 		});
@@ -36,15 +34,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: `https://weather.cit.api.here.com/weather/1.0/report.json?app_id=hF9FhuQZC0D6ix1haZeZ&app_code=sc3s5Gr4xLP1v3d2uRsciQ&latitude=${lat}&longitude=${long}&oneobservation=true&product=observation`,
-				// params: {
-				// 	app_id: 'hF9FhuQZC0D6ix1haZeZ',
-				// 	app_code: 'sc3s5Gr4xLP1v3d2uRsciQ',
-				// 	latitude: lat,
-				// 	longitude:  long,
-				// 	oneobservation: 'true',
-				// 	product: 'observation'
-				// }
+				url: `https://weather.cit.api.here.com/weather/1.0/report.json?app_id=hF9FhuQZC0D6ix1haZeZ&app_code=sc3s5Gr4xLP1v3d2uRsciQ&latitude=${lat}&longitude=${long}&oneobservation=true&product=observation`
 			})
 				.then((weather) => {
 					//console.log(weather.data.observations.location[0].observation[0]);
@@ -59,8 +49,6 @@ module.exports = {
 						windDescShort: weather.data.observations.location[0].observation[0].windDescShort
 					}
 					resolve(weatherReport);
-				
-		
 				})
 				.catch(err => reject(console.log(err)));
 		});

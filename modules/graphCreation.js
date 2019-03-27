@@ -136,7 +136,7 @@ function determineRightWeights(set, inputAdjMatrix, ceiling) {
     const weightsRaw = fs.readFileSync('../weights.json');
     const weights = JSON.parse(weightsRaw);
     
-    let objectMatrix = set.array;
+    let objectMatrix = set.objMatrix;
     let adjMatrix = inputAdjMatrix;
 
     for(let x = 0; i < objectMatrix.size; i++){
