@@ -16,6 +16,7 @@ app.get('/',(req, res) => {
 	objectCre.createObjectMatrix(set)
 		.then(newSet => {
 			set = newSet;
+			set = graphCre.createGraph(set);
 			res.status(200).send(set);
 		})
 		.catch(err => console.log(err));
@@ -24,10 +25,16 @@ app.get('/',(req, res) => {
 app.get('/test', (req, res) => {
 	
 	const start = {lat: 51.976301,lng: -0.229991}
-	const end = {lat: 51.947952, lng: -0.277250}
+	//const end = {lat: 51.947952, lng: -0.277250}
 
-	const result = matrix.getDestTest(start, 180, 1);
-	res.status(200).send(result)
+	// const result = matrix.getDestTest(start, 180, 1);
+	apis.heightCall(start.lat, start.lng)
+		.then(result => {
+			res.status(200).send({elevation: result})
+
+		})
+		.catch(err => console.log(err));
+	
 });
 
 const PORT = process.env.port || 8000;

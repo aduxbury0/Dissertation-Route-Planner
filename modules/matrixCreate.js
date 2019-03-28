@@ -26,15 +26,15 @@ function degrees(input) {
 function haversine(start, end) {
 
 	const R = 6371; // radius of the earth in meters
-	let φ1 = radians(start.lat);
-	let φ2 = radians(end.lat);
-	let Δφ = φ2 - φ1;
-	let Δλ = radians(end.lng-start.lng);
+	const φ1 = radians(start.lat);
+	const φ2 = radians(end.lat);
+	const Δφ = φ2 - φ1;
+	const Δλ = radians(end.lng-start.lng);
 	
-	let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 	
-	let distance = (R * c)*1000;
+	const distance = (R * c)*1000;
 	return distance.toFixed(2);
 }
 
@@ -53,8 +53,8 @@ function getDestination(start, bearing, distance) {
 	const λ1 = radians(start.lng);
 	bearing = radians(bearing);
 	
-	let φ2 = Math.asin( Math.sin(φ1)*Math.cos(distance/R) + Math.cos(φ1)*Math.sin(distance/R)*Math.cos(bearing));
-	let λ2 = λ1 + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(φ1), Math.cos(distance/R)-Math.sin(φ1)*Math.sin(φ2));
+	const φ2 = Math.asin( Math.sin(φ1)*Math.cos(distance/R) + Math.cos(φ1)*Math.sin(distance/R)*Math.cos(bearing));
+	const λ2 = λ1 + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(φ1), Math.cos(distance/R)-Math.sin(φ1)*Math.sin(φ2));
 
 	const endPoint = {
 		lat: degrees(φ2),
@@ -71,13 +71,13 @@ function getDestination(start, bearing, distance) {
  */
 function getBearing(start, end) {
 	
-	let λ1 = radians(start.lng);
-	let λ2 = radians(end.lng);
-	let φ1 = radians(start.lat);
-	let φ2 = radians(end.lat);
+	const λ1 = radians(start.lng);
+	const λ2 = radians(end.lng);
+	const φ1 = radians(start.lat);
+	const φ2 = radians(end.lat);
 
-	let y = Math.sin(λ2-λ1) * Math.cos(φ2);
-	let x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(λ2-λ1);
+	const y = Math.sin(λ2-λ1) * Math.cos(φ2);
+	const x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(λ2-λ1);
 	let bearing = degrees(Math.atan2(y, x))
 
 	if(bearing < 0){
@@ -115,8 +115,8 @@ function populateArray(start, end, mainArray, bearing) {
 	
 	bearing = parseFloat(bearing);
 
-	let leftBearing = (Math.ceil((bearing + 270) % 360) * 100 ) / 100;
-	let rightBearing = (Math.ceil((bearing + 90) % 360) * 100 ) / 100;
+	const leftBearing = (Math.ceil((bearing + 270) % 360) * 100 ) / 100;
+	const rightBearing = (Math.ceil((bearing + 90) % 360) * 100 ) / 100;
 
 	mainArray[0][2] = [start.lat, start.lng];
 

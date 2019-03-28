@@ -8,7 +8,7 @@ const apiCalls = require('./apiRequests');
 function getWeather(latLngPair) {
 	return new Promise((resolve, reject) => {
 
-		apiCalls.weatherCall(latLngPair[1], latLngPair[0])
+		apiCalls.weatherCall(latLngPair[0], latLngPair[1])
 			.then((weatherReport) => {
 				resolve(weatherReport);
 			})
@@ -24,7 +24,7 @@ function getWeather(latLngPair) {
  */
 function getTerrainHeight(latLngPair) {
 	return new Promise((resolve, reject) => {
-		apiCalls.heightCall(latLngPair[1], latLngPair[0])
+		apiCalls.heightCall(latLngPair[0], latLngPair[1])
 			.then(height => resolve(height))
 			.catch(err => reject(err));
 	});
@@ -52,6 +52,7 @@ function generateObject(latLngPair) {
 				windSpeed: weatherReport.windSpeed,
 				windDirection: weatherReport.windDirection,
 				windDescShort: weatherReport.windDescShort,
+				country: weatherReport.country
 			};
     
 			resolve(nodeObject);
@@ -88,7 +89,7 @@ module.exports = {
      * @returns {Object} - JS Object containing data on the route and an array of 5n objects (where N is length of the array) 
      */
 	async createObjectMatrix(set) {
-        return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			const coordMatrix = set.array;
 			const objectMatrix = createArray(coordMatrix.length);
 			

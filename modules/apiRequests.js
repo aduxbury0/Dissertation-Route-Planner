@@ -12,11 +12,11 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: `http://dev.virtualearth.net/REST/v1/Elevation/List?points=${lat},${long}&key=AmcNLgOsQ7oXGpikbVVM0ZRM7mnnBU5SFx0FvXMmVAGk9H34YddfQnbAJ6bjin-q`,
+				url: `https://elevation-api.io/api/elevation?points=${lat},${long}`
 
 			})
 				.then((res) => {
-					const elevation = res.data.resourceSets[0].resources[0].elevations[0];
+					const elevation = res.data.elevations[0].elevation;
 					resolve(elevation);
 				})
 				.catch(err => reject(console.log(err)));
@@ -46,7 +46,8 @@ module.exports = {
 						precipitation24H: weather.data.observations.location[0].observation[0].precipitation24H,
 						windSpeed: weather.data.observations.location[0].observation[0].windSpeed,
 						windDirection: weather.data.observations.location[0].observation[0].windDirection,
-						windDescShort: weather.data.observations.location[0].observation[0].windDescShort
+						windDescShort: weather.data.observations.location[0].observation[0].windDescShort,
+						country: weather.data.observations.location[0].observation[0].country
 					}
 					resolve(weatherReport);
 				})
