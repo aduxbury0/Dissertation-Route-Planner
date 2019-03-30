@@ -9,19 +9,14 @@ module.exports = {
 	 * @param {float} long - Longitude for point of height needed
 	 */
 	heightCall(lat, long) {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: `https://api.open-elevation.com/api/v1/lookup\?locations\=${lat},${long}`,
-				headers: {
-							
-				},
-				data: {
-							
-				}
+				url: `https://elevation-api.io/api/elevation?points=${lat},${long}`
+
 			})
 				.then((res) => {
-					const elevation = res.results[0];
+					const elevation = res.data.elevations[0].elevation;
 					resolve(elevation);
 				})
 				.catch(err => reject(console.log(err)));
@@ -39,16 +34,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
-				url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
-				params: {
-					app_id: 'hF9FhuQZC0D6ix1haZeZ',
-					app_code: 'sc3s5Gr4xLP1v3d2uRsciQ',
-					latitude: lat,
-					longitude:  long,
-					oneobservation: 'true',
-					product: 'observation'
-
-				}
+				url: `https://weather.cit.api.here.com/weather/1.0/report.json?app_id=hF9FhuQZC0D6ix1haZeZ&app_code=sc3s5Gr4xLP1v3d2uRsciQ&latitude=${lat}&longitude=${long}&oneobservation=true&product=observation`
 			})
 				.then((weather) => {
 					//console.log(weather.data.observations.location[0].observation[0]);
@@ -60,11 +46,10 @@ module.exports = {
 						precipitation24H: weather.data.observations.location[0].observation[0].precipitation24H,
 						windSpeed: weather.data.observations.location[0].observation[0].windSpeed,
 						windDirection: weather.data.observations.location[0].observation[0].windDirection,
-						windDescShort: weather.data.observations.location[0].observation[0].windDescShort
+						windDescShort: weather.data.observations.location[0].observation[0].windDescShort,
+						country: weather.data.observations.location[0].observation[0].country
 					}
 					resolve(weatherReport);
-				
-		
 				})
 				.catch(err => reject(console.log(err)));
 		});
@@ -80,7 +65,7 @@ module.exports = {
 	 * @returns {JSON}
 	 */
 	airspaceCall(latMin, longMin, latMax, longMax) {
-		return new Promise((reject, resolve) => {
+		return new Promise((resolve, reject) => {
 
 			axios({
 				method: 'get',
