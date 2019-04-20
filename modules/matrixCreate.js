@@ -188,7 +188,8 @@ module.exports = {
 			ceiling: ceiling,
 			array: populatedArray,
 			objMatrix: [],
-			adjMatrix: []
+			adjMatrix: [],
+			shortestPath: []
 		}
 
 		return set;

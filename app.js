@@ -2,6 +2,7 @@ const express = require('express');
 const matrix = require('./modules/matrixCreate');
 const objectCre = require('./modules/objectCreation');
 const graphCre = require('./modules/graphCreation');
+const dijkstras = require('./modules/dijkstra');
 const apis = require('./modules/apiRequests');
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/',(req, res) => {
 		.then(newSet => {
 			set = newSet;
 			set = graphCre.createGraph(set);
+			set = dijkstras.findPath(set);
 			res.status(200).send(set);
 		})
 		.catch(err => console.log(err));
