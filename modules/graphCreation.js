@@ -36,25 +36,25 @@ function getCompassDirection(bearing){
 	if(bearing > 337.5 || bearing <= 22.5){
 		return "N";
 	}
-	else if(22.5 < bearing >= 67.5 ){
+	else if(22.5 < bearing <= 67.5 ){
 		return "NE";
 	}
-	else if(67.5 < bearing >= 112.5 ){
+	else if(67.5 < bearing <= 112.5 ){
 		return "E";
 	}
-	else if(112.5 < bearing >= 157.5 ){
+	else if(112.5 < bearing <= 157.5 ){
 		return "SE";
 	}
-	else if(157.5 < bearing >= 202.5 ){
+	else if(157.5 < bearing <= 202.5 ){
 		return "S";
 	}
-	else if(202.5 < bearing >= 247.5 ){
+	else if(202.5 < bearing <= 247.5 ){
 		return "SW";
 	}
-	else if(247.5 < bearing >= 292.5 ){
+	else if(247.5 < bearing <= 292.5 ){
 		return "W";
 	}
-	else if(292.5 < bearing >= 337.5 ){
+	else if(292.5 < bearing <= 337.5 ){
 		return "NW";
 	}
 }
