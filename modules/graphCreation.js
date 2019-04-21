@@ -32,17 +32,82 @@ function addEdge(start, end, weight, adjMatrix) {
 
 }
 
+function getCompassDirection(bearing){
+	if(bearing > 337.5 || bearing <= 22.5){
+		return "N";
+	}
+	else if(22.5 < bearing <= 67.5 ){
+		return "NE";
+	}
+	else if(67.5 < bearing <= 112.5 ){
+		return "E";
+	}
+	else if(112.5 < bearing <= 157.5 ){
+		return "SE";
+	}
+	else if(157.5 < bearing <= 202.5 ){
+		return "S";
+	}
+	else if(202.5 < bearing <= 247.5 ){
+		return "SW";
+	}
+	else if(247.5 < bearing <= 292.5 ){
+		return "W";
+	}
+	else if(292.5 < bearing <= 337.5 ){
+		return "NW";
+	}
+}
+
+function reverse(input) {
+
+	if(input === "N"){
+		return "S";
+	}
+	else if(input === "NE"){
+		return "SW";
+	}
+	else if(input === "E"){
+		return "W";
+	}
+	else if(input === "SE"){
+		return "NW";
+	}
+	else if(input === "S"){
+		return "N";
+	}
+	else if(input === "SW"){
+		return "NE";
+	}
+	else if(input === "W"){
+		return "E";
+	}
+	else if(input === "NW"){
+		return "SE";
+	}
+
+}
 
 function windOncoming(bearing, windDirection, dirTravel) {
-
+	let traveldir;
+	let winddir;
 	if(dirTravel === "right"){
-		return false;
+		bearing = (bearing + 90) % 360;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === winddir);
 	}
 	else if (dirTravel === "left"){
-		return false;
+		bearing = ((bearing - 90) + 360) % 360;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === winddir);
+		
 	}
 	else if (dirTravel === "forward"){
-		return false;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === winddir);
 	}
 	else {
 		return false;
@@ -51,14 +116,25 @@ function windOncoming(bearing, windDirection, dirTravel) {
 }
 
 function windTail(bearing, windDirection, dirTravel) {
+	let traveldir;
+	let winddir;
 	if(dirTravel === "right"){
-		return false;
+		bearing = (bearing + 90) % 360;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === reverse(winddir));
 	}
 	else if (dirTravel === "left"){
-		return false;
+		bearing = ((bearing - 90) + 360) % 360;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === reverse(winddir));
+		
 	}
 	else if (dirTravel === "forward"){
-		return false;
+		traveldir = getCompassDirection(bearing);
+		winddir = getCompassDirection(windDirection);
+		return (traveldir === reverse(winddir));
 	}
 	else {
 		return false;
