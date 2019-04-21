@@ -1,41 +1,22 @@
 const express = require('express');
-const matrix = require('./modules/matrixCreate');
-const objectCre = require('./modules/objectCreation');
-const graphCre = require('./modules/graphCreation');
-const dijkstras = require('./modules/dijkstra');
-const apis = require('./modules/apiRequests');
+const controller = require('./modules/controller');
 
 const app = express();
 
 app.get('/',(req, res) => {
 	
-	const start = {lat: 51.976301,lng: -0.229991}
-	const end = {lat: 51.947952, lng: -0.277250}
-	const cieling = 4000;
+	res.sendStatus(200);
 
-	let set = matrix.createMatrix(start, end, cieling);
-	objectCre.createObjectMatrix(set)
-		.then(newSet => {
-			set = newSet;
-			set = graphCre.createGraph(set);
-			set = dijkstras.findPath(set);
-			res.status(200).send(set);
-		})
-		.catch(err => console.log(err));
 });
 
-app.get('/test', (req, res) => {
+app.get('/findroute', (req, res) => {
 	
-	const start = {lat: 51.976301,lng: -0.229991}
-	//const end = {lat: 51.947952, lng: -0.277250}
-
-	// const result = matrix.getDestTest(start, 180, 1);
-	apis.heightCall(start.lat, start.lng)
-		.then(result => {
-			res.status(200).send({elevation: result})
-
+	controller.routeFinder(req)
+		.then(body => {
+			res.send(body);
 		})
 		.catch(err => console.log(err));
+
 	
 });
 
