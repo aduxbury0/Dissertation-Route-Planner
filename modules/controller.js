@@ -69,6 +69,9 @@ module.exports = {
                                 aircraft: aircraftToF,
                                 aircraftBelowCieling: aircraftBelowCiel
                             }
+
+                            console.log(finalData);
+
                             resolve(finalData);
                         })
                         .catch(err => reject(err));

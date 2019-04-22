@@ -1,0 +1,58 @@
+{
+    "red":[
+        {
+            "height": 0,
+            "precipitation1H": "100",
+            "precipitation3H": "*",
+            "precipitation6H": "*",
+            "precipitation12H": "*",
+            "precipitation24H": "*",
+            "windSpeed": "1",
+            "windDirection": "0",
+            "windDescShort": "N",
+            "country": "United Kingdom"
+        }
+    ],
+    "green":[
+        {
+            "height": 0,
+            "precipitation1H": "*",
+            "precipitation3H": "*",
+            "precipitation6H": "*",
+            "precipitation12H": "*",
+            "precipitation24H": "*",
+            "windSpeed": "100",
+            "windDirection": "0",
+            "windDescShort": "N",
+            "country": "United Kingdom"
+        }
+    ],
+    "blue":[
+        {
+            "height": 0,
+            "precipitation1H": "*",
+            "precipitation3H": "*",
+            "precipitation6H": "*",
+            "precipitation12H": "*",
+            "precipitation24H": "*",
+            "windSpeed": "100",
+            "windDirection": "180",
+            "windDescShort": "S",
+            "country": "United Kingdom"
+        }
+    ],
+    "brown":[
+        {
+            "height": 10000,
+            "precipitation1H": "*",
+            "precipitation3H": "*",
+            "precipitation6H": "*",
+            "precipitation12H": "*",
+            "precipitation24H": "*",
+            "windSpeed": "1",
+            "windDirection": "0",
+            "windDescShort": "N",
+            "country": "United Kingdom"
+        }
+    ]
+}
