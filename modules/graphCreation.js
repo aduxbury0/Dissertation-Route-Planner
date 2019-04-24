@@ -185,7 +185,7 @@ function determineLeftWeights(set, inputAdjMatrix) {
                 }
                 
 				//set windspeed weightings
-				if(objectMatrix[x][y].windSpeed > 10) {
+				if(objectMatrix[x][y].windSpeed > 20) {
 					if(windOncoming(set.bearing, objectMatrix[x][y-1].windDirection, "left")){
 						weight = weight + weights.windSpeed;
 					}
@@ -262,7 +262,7 @@ function determineRightWeights(set, inputAdjMatrix) {
 				}
 
 				//set windspeed weightings
-				if(objectMatrix[x][y].windSpeed > 10) {
+				if(objectMatrix[x][y].windSpeed > 20) {
 					if(windOncoming(set.bearing, objectMatrix[x][y].windDirection, "right")){
 						weight = weight + weights.windSpeed;
 					}
@@ -341,7 +341,7 @@ function determineForwardWeights(set, inputAdjMatrix) {
                 }
 
                 //set windspeed weightings
-                if(objectMatrix[x+1][y].windSpeed > 10) {
+                if(objectMatrix[x+1][y].windSpeed > 20) {
                     if(windOncoming(set.bearing, objectMatrix[x][y].windDirection, "Forward")){
                         weight = weight + weights.windSpeed;
                     }
@@ -427,7 +427,7 @@ function ensureConnected(set, inputAdjMatrix) {
                 let relatives = getRelativeLocation(start, end);
 
                 if(adjMatrix[relatives.relativeStart][relatives.relativeEnd] <= 0){
-                    adjMatrix[relatives.relativeStart][relatives.relativeEnd] = 1;
+                    adjMatrix[relatives.relativeStart][relatives.relativeEnd] = 2;
                 }
             }
 
