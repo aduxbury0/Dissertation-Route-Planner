@@ -196,15 +196,4 @@ module.exports = {
 
 	},
 
-	getDestTest(start, bearing, distance) {
-
-		return getDestination(start, bearing, distance);
-
-	},
-
-	getBearingTest(start, end) {
-		return getBearing(start, end);
-	}
-
-
 }
