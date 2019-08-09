@@ -140,7 +140,7 @@ function populateArray(start, end, mainArray, bearing) {
 		mainArray[i][0] = [parseFloat(rightFar.lat.toFixed(6)), parseFloat(rightFar.lng.toFixed(6))];
 
 		//case for all nodes besides ones in final array
-		if(i !== mainArray.length - 1) {
+		if(i !== mainArray.length - 1 && i !== mainArray.length - 2) {
 
 			const currentLocation = {
 				lat: mainArray[i][2][0],
